@@ -45,3 +45,39 @@ exp(3) =
     by chunks split : 20.085537612432425
 ```
 
+
+## Task 2: optimized scheduling
+**Task:** write optimized and non-optimized scheduling algorithms
+for evaluating function on a set of points.
+
+Non-optimized scheduling: give equal number of inputs to every process.
+
+Optimized scheduling: give new input only to processes that finished their evaluation.
+
+**Solution:** [here](./task2_optimized_scheduling/src/main.rs).
+
+**Conclusion:** such algorithm shows major advantage only
+in case of non-homogeneous (heterogeneous) system
+(when evaluation time depends of process' number (rank)),
+rather than in case of dependency of function evaluation time of input parameters.
+
+**Numerical results:**
+Here "OS" stands for Optimized Scheduling, "NOS" - Non-Optimized Scheduling,
+$N=100$, time in seconds, APG - Average Performance Gain.
+
+| Delay distribution         |        NOS times         |         OS times         |          APG          |
+| -------------------------- | ------------------------ | ------------------------ | --------------------- |
+| linear                     | `6.234, 6.957, 6.093`    | `5.848, 5.377, 5.177`    | `1.18x`               |
+| linear to power            | `8.455, 10.933, 9.436`   | `7.789, 5.445, 6.478`    | `1.46x`               |
+| linear multiplied          | `15.604, 13.384, 8.875`  | `8.579, 7.717, 10.497`   | `1.41x`               |
+| Poisson (N=1000)           | `10.426, 10.309, 10.440` | `10.258, 10.291, 10.272` | `1.01x`               |
+| `rank==1 ? 1000 : 100`     | `10.241, 10.228, 10.221` | `2.228, 2.226, 2.226`    | `4.59x`               |
+| `rank<=3 ? 1000 : 100`     | `10.228, 10.233, 10.219` | `2.249, 2.229, 2.186`    | `4.60x`               |
+| `rank%3==0 ? 1000 : 100`   | `10.237, 10.244, 10.232` | `2.245, 2.181, 2.189`    | `4.64x`               |
+| `rank<size/2 ? 1000 : 100` | `10.241, 10.234, 10.228` | `2.232, 2.183, 2.180`    | `4.66x`               |
+| N = 300:                   |                          |                          |                       |
+| `rank==1 ? 1000 : 100`     | `30.178, 30.232, 30.243` | `4.215, 4.172, 4.186`    | `7.21x`               |
+| `rank<=3 ? 1000 : 100`     | `30.230, 30.217, 30.246` | `5.233, 5.172, 5.173`    | `5.82x`               |
+| `rank%3==0 ? 1000 : 100`   | `30.255, 30.244, 30.260` | `5.215, 5.182, 5.196`    | `5.82x`               |
+| `rank<size/2 ? 1000 : 100` | `30.226, 30.243, 30.227` | `5.219, 5.177, 5.166`    | `5.83x`               |
+
