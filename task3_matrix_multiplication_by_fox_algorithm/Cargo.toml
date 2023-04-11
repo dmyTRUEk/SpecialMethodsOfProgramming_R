@@ -1,0 +1,9 @@
+[package]
+name = "task3_matrix_multiplication_by_fox_algorithm"
+version = "1.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+mpi = { version = "0.6.0", features = ["derive"] }

@@ -81,3 +81,13 @@ $N=100$, time in seconds, APG - Average Performance Gain.
 | `rank%3==0 ? 1000 : 100`   | `30.255, 30.244, 30.260` | `5.215, 5.182, 5.196`    | `5.82x`               |
 | `rank<size/2 ? 1000 : 100` | `30.226, 30.243, 30.227` | `5.219, 5.177, 5.166`    | `5.83x`               |
 
+
+
+## Task 3: fast matrix multiplication by Fox Algorithm
+**Task:** write fast matrix multiplication using Fox Algorithm.
+
+Fox Algorithm consists of calculating each element (or block) of the resulting NxN matrix on each process,
+therefore requiring $N^2+1$ processes in simplest scenario.
+
+**Solution:** [here](./task3_matrix_multiplication_by_fox_algorithm/src/main.rs).
+
