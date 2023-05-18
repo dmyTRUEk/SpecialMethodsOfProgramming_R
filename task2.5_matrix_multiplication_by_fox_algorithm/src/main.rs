@@ -1,4 +1,4 @@
-//! Task 3: impl algorithm for fast matrix multiplication by Fox Algorithm.
+//! Task 2.5: impl algorithm for fast matrix multiplication by Fox Algorithm.
 
 #![feature(generic_const_exprs)]
 
@@ -78,7 +78,6 @@ fn main() {
 }
 
 
-
 struct Matrix<const N: usize> {
     elements: [[float; N]; N],
 }
@@ -136,7 +135,6 @@ impl<const N: usize> IndexMut<(usize, usize)> for Matrix<N> {
 }
 
 
-
 #[derive(Equivalence)]
 struct WrappedArrays {
     row   : [float; N],
@@ -153,15 +151,130 @@ impl WrappedArrays {
 
 
 
-
-
 #[cfg(test)]
-mod tests {
-    mod matrix {
-        mod index {
+mod matrix {
+    mod index {
+        use super::super::Matrix;
+        #[test]
+        fn _2x2() {
+            let m: Matrix<2> = Matrix {
+                elements: [
+                    [1., 2.],
+                    [3., 4.],
+                ]
+            };
+            assert_eq!(1., m[(0, 0)]);
+            assert_eq!(2., m[(0, 1)]);
+            assert_eq!(3., m[(1, 0)]);
+            assert_eq!(4., m[(1, 1)]);
+        }
+    }
+    mod index_mut {
+        mod _2x2 {
             use super::super::super::Matrix;
             #[test]
-            fn _2x2() {
+            fn _0_0() {
+                let mut m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                m[(0, 0)] = 42.;
+                assert_eq!(42., m[(0, 0)]);
+                assert_eq!(2., m[(0, 1)]);
+                assert_eq!(3., m[(1, 0)]);
+                assert_eq!(4., m[(1, 1)]);
+            }
+            #[test]
+            fn _0_1() {
+                let mut m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                m[(0, 1)] = 42.;
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(42., m[(0, 1)]);
+                assert_eq!(3., m[(1, 0)]);
+                assert_eq!(4., m[(1, 1)]);
+            }
+            #[test]
+            fn _1_0() {
+                let mut m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                m[(1, 0)] = 42.;
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(2., m[(0, 1)]);
+                assert_eq!(42., m[(1, 0)]);
+                assert_eq!(4., m[(1, 1)]);
+            }
+            #[test]
+            fn _1_1() {
+                let mut m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                m[(1, 1)] = 42.;
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(2., m[(0, 1)]);
+                assert_eq!(3., m[(1, 0)]);
+                assert_eq!(42., m[(1, 1)]);
+            }
+        }
+    }
+    mod from_elements {
+        mod _2x2 {
+            use super::super::super::Matrix;
+            #[test]
+            fn zeros() {
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [0., 0.],
+                        [0., 0.],
+                    ]
+                };
+                assert_eq!(0., m[(0, 0)]);
+                assert_eq!(0., m[(0, 1)]);
+                assert_eq!(0., m[(1, 0)]);
+                assert_eq!(0., m[(1, 1)]);
+            }
+            #[test]
+            fn consts() {
+                let c = 42.137;
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [c, c],
+                        [c, c],
+                    ]
+                };
+                assert_eq!(c, m[(0, 0)]);
+                assert_eq!(c, m[(0, 1)]);
+                assert_eq!(c, m[(1, 0)]);
+                assert_eq!(c, m[(1, 1)]);
+            }
+            #[test]
+            fn identity() {
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 0.],
+                        [0., 1.],
+                    ]
+                };
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(0., m[(0, 1)]);
+                assert_eq!(0., m[(1, 0)]);
+                assert_eq!(1., m[(1, 1)]);
+            }
+            #[test]
+            fn custom() {
                 let m: Matrix<2> = Matrix {
                     elements: [
                         [1., 2.],
@@ -174,249 +287,130 @@ mod tests {
                 assert_eq!(4., m[(1, 1)]);
             }
         }
-        mod index_mut {
-            mod _2x2 {
-                use super::super::super::super::Matrix;
-                #[test]
-                fn _0_0() {
-                    let mut m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    m[(0, 0)] = 42.;
-                    assert_eq!(42., m[(0, 0)]);
-                    assert_eq!(2., m[(0, 1)]);
-                    assert_eq!(3., m[(1, 0)]);
-                    assert_eq!(4., m[(1, 1)]);
-                }
-                #[test]
-                fn _0_1() {
-                    let mut m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    m[(0, 1)] = 42.;
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(42., m[(0, 1)]);
-                    assert_eq!(3., m[(1, 0)]);
-                    assert_eq!(4., m[(1, 1)]);
-                }
-                #[test]
-                fn _1_0() {
-                    let mut m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    m[(1, 0)] = 42.;
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(2., m[(0, 1)]);
-                    assert_eq!(42., m[(1, 0)]);
-                    assert_eq!(4., m[(1, 1)]);
-                }
-                #[test]
-                fn _1_1() {
-                    let mut m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    m[(1, 1)] = 42.;
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(2., m[(0, 1)]);
-                    assert_eq!(3., m[(1, 0)]);
-                    assert_eq!(42., m[(1, 1)]);
-                }
+    }
+    mod from_rows {
+        mod _2x2 {
+            use super::super::super::Matrix;
+            #[test]
+            fn zeros() {
+                let m: Matrix<2> = Matrix::from_rows([0., 0., 0., 0.]);
+                assert_eq!(0., m[(0, 0)]);
+                assert_eq!(0., m[(0, 1)]);
+                assert_eq!(0., m[(1, 0)]);
+                assert_eq!(0., m[(1, 1)]);
+            }
+            #[test]
+            fn consts() {
+                let c = 42.137;
+                let m: Matrix<2> = Matrix::from_rows([c, c, c, c]);
+                assert_eq!(c, m[(0, 0)]);
+                assert_eq!(c, m[(0, 1)]);
+                assert_eq!(c, m[(1, 0)]);
+                assert_eq!(c, m[(1, 1)]);
+            }
+            #[test]
+            fn identity() {
+                let m: Matrix<2> = Matrix::from_rows([1., 0., 0., 1.]);
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(0., m[(0, 1)]);
+                assert_eq!(0., m[(1, 0)]);
+                assert_eq!(1., m[(1, 1)]);
+            }
+            #[test]
+            fn custom() {
+                let m: Matrix<2> = Matrix::from_rows([1., 2., 3., 4.]);
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(2., m[(0, 1)]);
+                assert_eq!(3., m[(1, 0)]);
+                assert_eq!(4., m[(1, 1)]);
             }
         }
-        mod from_elements {
-            mod _2x2 {
-                use super::super::super::super::Matrix;
-                #[test]
-                fn zeros() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [0., 0.],
-                            [0., 0.],
-                        ]
-                    };
-                    assert_eq!(0., m[(0, 0)]);
-                    assert_eq!(0., m[(0, 1)]);
-                    assert_eq!(0., m[(1, 0)]);
-                    assert_eq!(0., m[(1, 1)]);
-                }
-                #[test]
-                fn consts() {
-                    let c = 42.137;
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [c, c],
-                            [c, c],
-                        ]
-                    };
-                    assert_eq!(c, m[(0, 0)]);
-                    assert_eq!(c, m[(0, 1)]);
-                    assert_eq!(c, m[(1, 0)]);
-                    assert_eq!(c, m[(1, 1)]);
-                }
-                #[test]
-                fn identity() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 0.],
-                            [0., 1.],
-                        ]
-                    };
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(0., m[(0, 1)]);
-                    assert_eq!(0., m[(1, 0)]);
-                    assert_eq!(1., m[(1, 1)]);
-                }
-                #[test]
-                fn custom() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(2., m[(0, 1)]);
-                    assert_eq!(3., m[(1, 0)]);
-                    assert_eq!(4., m[(1, 1)]);
-                }
+    }
+    mod from_rows_str {
+        mod _2x2 {
+            use super::super::super::Matrix;
+            #[test]
+            fn zeros() {
+                let m: Matrix<2> = Matrix::from_rows_str("0. 0. 0. 0.");
+                assert_eq!(0., m[(0, 0)]);
+                assert_eq!(0., m[(0, 1)]);
+                assert_eq!(0., m[(1, 0)]);
+                assert_eq!(0., m[(1, 1)]);
+            }
+            #[test]
+            fn consts() {
+                let c = 42.137;
+                let m: Matrix<2> = Matrix::from_rows_str(&format!("{c} {c} {c} {c}"));
+                assert_eq!(c, m[(0, 0)]);
+                assert_eq!(c, m[(0, 1)]);
+                assert_eq!(c, m[(1, 0)]);
+                assert_eq!(c, m[(1, 1)]);
+            }
+            #[test]
+            fn identity() {
+                let m: Matrix<2> = Matrix::from_rows_str("1. 0. 0. 1.");
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(0., m[(0, 1)]);
+                assert_eq!(0., m[(1, 0)]);
+                assert_eq!(1., m[(1, 1)]);
+            }
+            #[test]
+            fn custom() {
+                let m: Matrix<2> = Matrix::from_rows_str("1. 2. 3. 4.");
+                assert_eq!(1., m[(0, 0)]);
+                assert_eq!(2., m[(0, 1)]);
+                assert_eq!(3., m[(1, 0)]);
+                assert_eq!(4., m[(1, 1)]);
             }
         }
-        mod from_rows {
-            mod _2x2 {
-                use super::super::super::super::Matrix;
-                #[test]
-                fn zeros() {
-                    let m: Matrix<2> = Matrix::from_rows([0., 0., 0., 0.]);
-                    assert_eq!(0., m[(0, 0)]);
-                    assert_eq!(0., m[(0, 1)]);
-                    assert_eq!(0., m[(1, 0)]);
-                    assert_eq!(0., m[(1, 1)]);
-                }
-                #[test]
-                fn consts() {
-                    let c = 42.137;
-                    let m: Matrix<2> = Matrix::from_rows([c, c, c, c]);
-                    assert_eq!(c, m[(0, 0)]);
-                    assert_eq!(c, m[(0, 1)]);
-                    assert_eq!(c, m[(1, 0)]);
-                    assert_eq!(c, m[(1, 1)]);
-                }
-                #[test]
-                fn identity() {
-                    let m: Matrix<2> = Matrix::from_rows([1., 0., 0., 1.]);
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(0., m[(0, 1)]);
-                    assert_eq!(0., m[(1, 0)]);
-                    assert_eq!(1., m[(1, 1)]);
-                }
-                #[test]
-                fn custom() {
-                    let m: Matrix<2> = Matrix::from_rows([1., 2., 3., 4.]);
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(2., m[(0, 1)]);
-                    assert_eq!(3., m[(1, 0)]);
-                    assert_eq!(4., m[(1, 1)]);
-                }
+    }
+    mod get_row {
+        mod _2x2 {
+            use super::super::super::Matrix;
+            #[test]
+            fn _0() {
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                assert_eq!([1., 2.], m.get_row(0));
+            }
+            #[test]
+            fn _1() {
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                assert_eq!([3., 4.], m.get_row(1));
             }
         }
-        mod from_rows_str {
-            mod _2x2 {
-                use super::super::super::super::Matrix;
-                #[test]
-                fn zeros() {
-                    let m: Matrix<2> = Matrix::from_rows_str("0. 0. 0. 0.");
-                    assert_eq!(0., m[(0, 0)]);
-                    assert_eq!(0., m[(0, 1)]);
-                    assert_eq!(0., m[(1, 0)]);
-                    assert_eq!(0., m[(1, 1)]);
-                }
-                #[test]
-                fn consts() {
-                    let c = 42.137;
-                    let m: Matrix<2> = Matrix::from_rows_str(&format!("{c} {c} {c} {c}"));
-                    assert_eq!(c, m[(0, 0)]);
-                    assert_eq!(c, m[(0, 1)]);
-                    assert_eq!(c, m[(1, 0)]);
-                    assert_eq!(c, m[(1, 1)]);
-                }
-                #[test]
-                fn identity() {
-                    let m: Matrix<2> = Matrix::from_rows_str("1. 0. 0. 1.");
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(0., m[(0, 1)]);
-                    assert_eq!(0., m[(1, 0)]);
-                    assert_eq!(1., m[(1, 1)]);
-                }
-                #[test]
-                fn custom() {
-                    let m: Matrix<2> = Matrix::from_rows_str("1. 2. 3. 4.");
-                    assert_eq!(1., m[(0, 0)]);
-                    assert_eq!(2., m[(0, 1)]);
-                    assert_eq!(3., m[(1, 0)]);
-                    assert_eq!(4., m[(1, 1)]);
-                }
+    }
+    mod get_column {
+        mod _2x2 {
+            use super::super::super::Matrix;
+            #[test]
+            fn _0() {
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                assert_eq!([1., 3.], m.get_column(0));
             }
-        }
-        mod get_row {
-            mod _2x2 {
-                use super::super::super::super::Matrix;
-                #[test]
-                fn _0() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    assert_eq!([1., 2.], m.get_row(0));
-                }
-                #[test]
-                fn _1() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    assert_eq!([3., 4.], m.get_row(1));
-                }
-            }
-        }
-        mod get_column {
-            mod _2x2 {
-                use super::super::super::super::Matrix;
-                #[test]
-                fn _0() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    assert_eq!([1., 3.], m.get_column(0));
-                }
-                #[test]
-                fn _1() {
-                    let m: Matrix<2> = Matrix {
-                        elements: [
-                            [1., 2.],
-                            [3., 4.],
-                        ]
-                    };
-                    assert_eq!([2., 4.], m.get_column(1));
-                }
+            #[test]
+            fn _1() {
+                let m: Matrix<2> = Matrix {
+                    elements: [
+                        [1., 2.],
+                        [3., 4.],
+                    ]
+                };
+                assert_eq!([2., 4.], m.get_column(1));
             }
         }
     }
