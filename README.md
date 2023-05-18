@@ -82,7 +82,6 @@ $N=100$, time in seconds, APG - Average Performance Gain.
 | `rank<size/2 ? 1000 : 100` | `30.226, 30.243, 30.227` | `5.219, 5.177, 5.166`    | `5.83x`               |
 
 
-
 ## Task 3: fast matrix multiplication by Fox Algorithm
 **Task:** write fast matrix multiplication using Fox Algorithm.
 
@@ -90,4 +89,11 @@ Fox Algorithm consists of calculating each element (or block) of the resulting N
 therefore requiring $N^2+1$ processes in simplest scenario.
 
 **Solution:** [here](./task3_matrix_multiplication_by_fox_algorithm/src/main.rs).
+
+
+## Task 5.2: Jacobi iteration method
+**Task:** write program that solves SOLE (System Of Linear Equations)
+using [Jacobi iteration method](https://en.wikipedia.org/wiki/Jacobi_method).
+
+**Solution:** [here](./task5.2_jacobi_iteration_method/src/main.rs).
 
