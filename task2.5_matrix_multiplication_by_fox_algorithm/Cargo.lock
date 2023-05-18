@@ -413,7 +413,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "task3_matrix_multiplication_by_fox_algorithm"
+name = "task2_5_matrix_multiplication_by_fox_algorithm"
 version = "1.0.0"
 dependencies = [
  "mpi",
