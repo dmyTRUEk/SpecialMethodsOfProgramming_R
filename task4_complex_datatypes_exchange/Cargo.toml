@@ -1,8 +1,9 @@
 [package]
-name = "task4_complex_data_types_exchange"
-version = "0.0.0"
+name = "task4_complex_datatypes_exchange"
+version = "1.0.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+mpi = { version = "0.6.0", features = ["derive"] }

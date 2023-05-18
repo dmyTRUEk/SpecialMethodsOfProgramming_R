@@ -98,6 +98,13 @@ using MPI functions barrier, scatter, gather.
 **Solution:** [here](./task3_series_sum_using_barrier_scatter_gather/src/main.rs).
 
 
+# Task 4: complex datatypes exchange.
+**Task:** write a program in which processes
+exchanges some complex datatype, for example some matrix parts.
+
+**Solution:** [here](./task4_complex_data_types_exchange/src/main.rs).
+
+
 # Task 5.2: Jacobi iteration method
 **Task:** write program that solves SOLE (System Of Linear Equations)
 using [Jacobi iteration method](https://en.wikipedia.org/wiki/Jacobi_method).
