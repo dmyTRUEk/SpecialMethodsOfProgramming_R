@@ -1,13 +1,13 @@
 # Solutions of tasks for "Special Methods of Programming" by R
 
 
-## Task 0: hello MPI
+# Task 0: hello MPI
 **Task:** write "hello MPI" program.
 
 **Solution:** [here](./task0_hello_mpi/src/main.rs).
 
 
-## Task 1: series sum
+# Task 1: series sum
 **Task:** calculate series sum using different split types.
 
 Chosen series to calculate:
@@ -46,7 +46,7 @@ exp(3) =
 ```
 
 
-## Task 2: optimized scheduling
+# Task 2: optimized scheduling
 **Task:** write optimized and non-optimized scheduling algorithms
 for evaluating function on a set of points.
 
@@ -82,16 +82,23 @@ $N=100$, time in seconds, APG - Average Performance Gain.
 | `rank<size/2 ? 1000 : 100` | `30.226, 30.243, 30.227` | `5.219, 5.177, 5.166`    | `5.83x`               |
 
 
-## Task 3: fast matrix multiplication by Fox Algorithm
+# Task 2.5: fast matrix multiplication by Fox Algorithm
 **Task:** write fast matrix multiplication using Fox Algorithm.
 
 Fox Algorithm consists of calculating each element (or block) of the resulting NxN matrix on each process,
 therefore requiring $N^2+1$ processes in simplest scenario.
 
-**Solution:** [here](./task3_matrix_multiplication_by_fox_algorithm/src/main.rs).
+**Solution:** [here](./task2.5_matrix_multiplication_by_fox_algorithm/src/main.rs).
 
 
-## Task 5.2: Jacobi iteration method
+# Task 3: series sum using barrier, scatter, gather functions.
+**Task:** write program that calculates series sum
+using MPI functions barrier, scatter, gather.
+
+**Solution:** [here](./task3_series_sum_using_barrier_scatter_gather/src/main.rs).
+
+
+# Task 5.2: Jacobi iteration method
 **Task:** write program that solves SOLE (System Of Linear Equations)
 using [Jacobi iteration method](https://en.wikipedia.org/wiki/Jacobi_method).
 
